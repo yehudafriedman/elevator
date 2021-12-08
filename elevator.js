@@ -19,6 +19,7 @@ function createInput() {
 
         let SeveralFloorsInput = document.createElement("input");
         SeveralFloorsInput.id = `SeveralFloorsInput-${i}`;
+        SeveralFloorsInput.type = "number"
 
         let SeveralFloorsButton = document.createElement("button");
         SeveralFloorsButton.id = `SeveralFloorsButton-${i}`;
@@ -35,19 +36,21 @@ function createInput() {
 
 function create(buildingNumber, queues, Orders) {
     if (document.getElementById(`all_site-${buildingNumber}`)) {
-        document.getElementById(`all_site-${buildingNumber}`).remove();   
-    }
- 
-    let SeveralF = document.getElementById(`SeveralFloorsInput-${buildingNumber}`).value
-    if (SeveralF <= 0) {
-        alert("אנא הכנס מספר קומות גדול מ 0")
+        alert("הבניין כבר בנוי")
     }
 
-    createFloors(SeveralF, buildingNumber, queues, Orders)
-    createElevator(SeveralF, buildingNumber, queues, Orders)
+    else {
+        let SeveralF = document.getElementById(`SeveralFloorsInput-${buildingNumber}`).value
+        if (SeveralF <= 0) {
+            alert("אנא הכנס מספר קומות גדול מ 0")
+        }
 
-    document.getElementById(`SeveralFloorsButton-${buildingNumber}`).remove()
-    
+        createFloors(SeveralF, buildingNumber, queues, Orders)
+        createElevator(SeveralF, buildingNumber, queues, Orders)
+
+        // document.getElementById(`SeveralFloorsButton-${buildingNumber}`).remove()
+    }
+
 }
 
 
