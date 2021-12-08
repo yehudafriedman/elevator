@@ -10,8 +10,8 @@ function createInput() {
     while (document.getElementById(`div_build-${i}`)) {
         document.getElementById(`div_build-${i++}`).remove();
     }
-let x = document.createElement("p")
-main.appendChild(x)
+    let x = document.createElement("p")
+    main.appendChild(x)
     for (let i = 0; i < TotalBuildings; i++) {
         let div_build = document.createElement("div");
         div_build.id = `div_build-${i}`
@@ -22,7 +22,7 @@ main.appendChild(x)
 
         let SeveralFloorsButton = document.createElement("button");
         SeveralFloorsButton.id = `SeveralFloorsButton-${i}`;
-        SeveralFloorsButton.innerHTML = `Enter several floors in building ${i+1}`;
+        SeveralFloorsButton.innerHTML = `Enter several floors in building ${i + 1}`;
         let queues = {};
         let Orders = [];
         SeveralFloorsButton.onclick = () => { create(i, queues, Orders) }
