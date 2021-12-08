@@ -17,6 +17,9 @@ function createInput() {
         div_build.id = `div_build-${i}`
         div_build.style = "display: inline-block"
 
+        let numF = document.createElement("p");
+        numF.innerHTML = `building ${i + 1}`
+
         let SeveralFloorsInput = document.createElement("input");
         SeveralFloorsInput.id = `SeveralFloorsInput-${i}`;
         SeveralFloorsInput.type = "number"
@@ -29,28 +32,29 @@ function createInput() {
         SeveralFloorsButton.onclick = () => { create(i, queues, Orders) }
 
         main.appendChild(div_build)
+        div_build.appendChild(numF)
         div_build.appendChild(SeveralFloorsInput)
         div_build.appendChild(SeveralFloorsButton)
+        
     }
 }
 
 function create(buildingNumber, queues, Orders) {
     if (document.getElementById(`all_site-${buildingNumber}`)) {
-        alert("הבניין כבר בנוי")
+        document.getElementById(`all_site-${buildingNumber}`).remove();   
+    }
+ 
+    let SeveralF = document.getElementById(`SeveralFloorsInput-${buildingNumber}`).value
+    if (SeveralF <= 0) {
+        alert("אנא הכנס מספר קומות גדול מ 0")
     }
 
-    else {
-        let SeveralF = document.getElementById(`SeveralFloorsInput-${buildingNumber}`).value
-        if (SeveralF <= 0) {
-            alert("אנא הכנס מספר קומות גדול מ 0")
-        }
+    createFloors(SeveralF, buildingNumber, queues, Orders)
+    createElevator(SeveralF, buildingNumber, queues, Orders)
 
-        createFloors(SeveralF, buildingNumber, queues, Orders)
-        createElevator(SeveralF, buildingNumber, queues, Orders)
-
-        // document.getElementById(`SeveralFloorsButton-${buildingNumber}`).remove()
-    }
-
+    document.getElementById(`SeveralFloorsInput-${buildingNumber}`).remove()
+    document.getElementById(`SeveralFloorsButton-${buildingNumber}`).remove()
+    
 }
 
 
