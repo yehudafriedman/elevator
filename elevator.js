@@ -10,25 +10,26 @@ function createInput() {
     while (document.getElementById(`div_build-${i}`)) {
         document.getElementById(`div_build-${i++}`).remove();
     }
-
+let x = document.createElement("p")
+main.appendChild(x)
     for (let i = 0; i < TotalBuildings; i++) {
         let div_build = document.createElement("div");
         div_build.id = `div_build-${i}`
         div_build.style = "display: inline-block"
 
-        let SeveralFloors = document.createElement("input");
-        SeveralFloors.id = `SeveralFloors-${i}`;
+        let SeveralFloorsInput = document.createElement("input");
+        SeveralFloorsInput.id = `SeveralFloorsInput-${i}`;
 
-        let SeveralFloors_2 = document.createElement("button");
-        SeveralFloors_2.id = `SeveralFloors_2-${i}`;
-        SeveralFloors_2.innerHTML = `Enter several floors in building${i}`;
+        let SeveralFloorsButton = document.createElement("button");
+        SeveralFloorsButton.id = `SeveralFloorsButton-${i}`;
+        SeveralFloorsButton.innerHTML = `Enter several floors in building ${i+1}`;
         let queues = {};
         let Orders = [];
-        SeveralFloors_2.onclick = () => { create(i, queues, Orders) }
+        SeveralFloorsButton.onclick = () => { create(i, queues, Orders) }
 
         main.appendChild(div_build)
-        div_build.appendChild(SeveralFloors)
-        div_build.appendChild(SeveralFloors_2)
+        div_build.appendChild(SeveralFloorsInput)
+        div_build.appendChild(SeveralFloorsButton)
     }
 }
 
@@ -36,7 +37,7 @@ function create(buildingNumber, queues, Orders) {
     if (document.getElementById(`all_site-${buildingNumber}`)) {
         document.getElementById(`all_site-${buildingNumber}`).remove();
     }
-    let SeveralF = document.getElementById(`SeveralFloors-${buildingNumber}`).value
+    let SeveralF = document.getElementById(`SeveralFloorsInput-${buildingNumber}`).value
     if (SeveralF <= 0) {
         alert("אנא הכנס מספר קומות גדול מ 0")
     }
