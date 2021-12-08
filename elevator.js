@@ -1,5 +1,5 @@
 
-function create() {
+function createInput() {
     let TotalBuildings = document.querySelector("#id_input_building").value
 
     if (TotalBuildings <= 0) {
@@ -7,35 +7,59 @@ function create() {
     }
 
     let i = 0;
-    while (document.getElementById(`all_site-${i}`)) {
-        document.getElementById(`all_site-${i++}`).remove();
+    while (document.getElementById(`div_build-${i}`)) {
+        document.getElementById(`div_build-${i++}`).remove();
     }
 
-    for (let i = 0; i < TotalBuildings;
-        i++) {
+    for (let i = 0; i < TotalBuildings; i++) {
+        let div_build = document.createElement("div");
+        div_build.id = `div_build-${i}`
+        div_build.style = "display: inline-block"
+
+        let SeveralFloors = document.createElement("input");
+        SeveralFloors.id = `SeveralFloors-${i}`;
+
+        let SeveralFloors_2 = document.createElement("button");
+        SeveralFloors_2.id = `SeveralFloors_2-${i}`;
+        SeveralFloors_2.innerHTML = `Enter several floors in building${i}`;
         let queues = {};
         let Orders = [];
-        createFloors(i, queues, Orders)
-        createElevator(i, queues, Orders)
-    }
+        SeveralFloors_2.onclick = () => { create(i, queues, Orders) }
 
+        main.appendChild(div_build)
+        div_build.appendChild(SeveralFloors)
+        div_build.appendChild(SeveralFloors_2)
+    }
 }
 
-let SeveralFloors = 20
+function create(buildingNumber, queues, Orders) {
+    if (document.getElementById(`all_site-${buildingNumber}`)) {
+        document.getElementById(`all_site-${buildingNumber}`).remove();
+    }
+    let SeveralF = document.getElementById(`SeveralFloors-${buildingNumber}`).value
+    if (SeveralF <= 0) {
+        alert("אנא הכנס מספר קומות גדול מ 0")
+    }
+
+    createFloors(SeveralF, buildingNumber, queues, Orders)
+    createElevator(SeveralF, buildingNumber, queues, Orders)
+}
+
+
 let SeveralElevators = 3
-function createFloors(buildingNumber, queues, Orders) {
+function createFloors(SeveralF, buildingNumber, queues, Orders) {
 
     let all_site = document.createElement("div");
     all_site.id = `all_site-${buildingNumber}`;
-    all_site.style.display = "inline-block";
-    main.appendChild(all_site);
+
+    document.getElementById(`div_build-${buildingNumber}`).appendChild(all_site);
 
     let floors = document.createElement("div");
     floors.id = `floors-${buildingNumber}`;
     floors.style.float = "left"
     document.getElementById(`all_site-${buildingNumber}`).appendChild(floors);
 
-    for (let i = SeveralFloors; i > 0; i--) {
+    for (let i = SeveralF; i > 0; i--) {
         let newDiv = document.createElement("div");
         newDiv.className = "floor";
         newDiv.id = `floor${i}-${buildingNumber}`;
@@ -56,13 +80,13 @@ function createFloors(buildingNumber, queues, Orders) {
         document.getElementById(`floor${i}-${buildingNumber}`).appendChild(newBut);
 
     }
-    document.getElementById(`floor${SeveralFloors}-${buildingNumber}`).style.borderTop = "none"
+    document.getElementById(`floor${SeveralF}-${buildingNumber}`).style.borderTop = "none"
 
 }
 
 
 
-function createElevator(buildingNumber, queues, Orders) {
+function createElevator(SeveralF, buildingNumber, queues, Orders) {
 
     let elevators = document.createElement("div");
     elevators.id = `elevators-${buildingNumber}`;
@@ -76,10 +100,10 @@ function createElevator(buildingNumber, queues, Orders) {
         newElv.id = `elv${i}-${buildingNumber}`
         newElv.src = "elv.png";
         elevators.appendChild(newElv);
-        newElv.style.top = (Math.abs(110 * (SeveralFloors - 1)) - 7) + "px";
+        newElv.style.top = (Math.abs(110 * (SeveralF - 1)) - 7) + "px";
 
     }
-    setInterval(() => { qMng(buildingNumber, queues, Orders) }, 500)
+    setInterval(() => { qMng(SeveralF, buildingNumber, queues, Orders) }, 500)
 
 }
 
@@ -110,7 +134,7 @@ function fillQueues(e, buildingNumber, queues, Orders) {
     }
 }
 
-function qMng(buildingNumber, queues, Orders) {
+function qMng(SeveralF, buildingNumber, queues, Orders) {
     for (let i = 0; i < Object.keys(queues).length; i++) {
 
         if (queues[i].length > 0 && queues[i][0][1] == 2) {
@@ -119,7 +143,7 @@ function qMng(buildingNumber, queues, Orders) {
 
         if (queues[i].length > 1 && queues[i][0][1] == 0) {
             document.getElementById(`elv${i}-${buildingNumber}`).style.transition = `top ${queues[i][1][1] - 2}s linear`
-            document.getElementById(`elv${i}-${buildingNumber}`).style.top = Math.abs(110 * (SeveralFloors - 1)) - 7 - (queues[i][1][0]) * 110 + "px"
+            document.getElementById(`elv${i}-${buildingNumber}`).style.top = Math.abs(110 * (SeveralF - 1)) - 7 - (queues[i][1][0]) * 110 + "px"
 
             let remove = Orders.indexOf(Number(queues[i][0][0]))
             Orders.splice(remove, 1)
@@ -128,7 +152,7 @@ function qMng(buildingNumber, queues, Orders) {
 
         else if (queues[i].length == 1) {
             document.getElementById(`elv${i}-${buildingNumber}`).style.transition = `top ${queues[i][0][1] - 2}s linear`
-            document.getElementById(`elv${i}-${buildingNumber}`).style.top = Math.abs(110 * (SeveralFloors - 1)) - 7 - (queues[i][0][0]) * 110 + "px"
+            document.getElementById(`elv${i}-${buildingNumber}`).style.top = Math.abs(110 * (SeveralF - 1)) - 7 - (queues[i][0][0]) * 110 + "px"
         }
 
         for (let j = 0; j < queues[i].length; j++) {
